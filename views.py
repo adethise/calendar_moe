@@ -1,16 +1,21 @@
 from django.shortcuts import render
+from .models import DateEntry, Date
 
 import os
 import datetime
+import random
 
 def index(request):
-    return date(request, datetime.datetime.now())
+    today = datetime.datetime.now()
+    #date = Date.objects.get(month=today.month, day=today.day)
+    date = Date.objects.get(month=2, day=19)
 
-def date(request, date):
-    #filename = '%d.%d.0.png' % (date.month, date.day)
-    filename = '02.19.0.png'
-    filepath = os.path.join('calendar_moe', filename)
+    return for_date(request, date)
+
+def for_date(request, date):
+
+    entry = random.choice(DateEntry.objects.filter(date=date))
 
     return render(request, 'calendar_moe/index.html', {
-        'filepath': filepath,
+        'entry': entry,
     })
